@@ -8,7 +8,7 @@ export default function WatchVideo() {
   const [comment, setComment] = useState("");
 
   useEffect(() => {
-    api.get(`/videos/${id}`).then((res) => setVideo(res.data));
+    api.get(`/videos/${id}`).then((res) => setVideo(res.data.data[0]));
   }, [id]);
 
   const like = async () => {
@@ -27,7 +27,7 @@ export default function WatchVideo() {
 
   const subscribe = async () => {
     if (!video?.owner?._id) return;
-    await api.post(`/users/${video.owner._id}/subscribe`);
+    await api.post(`/users/${video.channelOwner.username}/subscribe`);
     // optimistic UI toggle
     setVideo((prev) =>
       prev
@@ -47,8 +47,8 @@ export default function WatchVideo() {
 
   if (!video) return <div className="p-5">Loading...</div>;
 
-  const { owner } = video;
-
+  const owner = video.channelOwner;
+ 
   return (
     <div className="p-5 flex flex-col gap-4 max-w-5xl mx-auto">
       {/* Video */}
@@ -62,7 +62,7 @@ export default function WatchVideo() {
         <div className="flex items-center justify-between mt-2">
           {/* Left: avatar + name + subs */}
           <Link
-            to={`/users/${owner._id}`}
+            to={`/profile/${owner.username}`}
             className="flex items-center gap-3"
           >
             <img

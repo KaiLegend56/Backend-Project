@@ -6,8 +6,8 @@ export default function Home() {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    api.get("/videos")
-      .then((res) => setVideos(res.data))
+     api.get("/videos")
+      .then((res) => setVideos(res.data.videos))
       .catch(() => {});
   }, []);
 

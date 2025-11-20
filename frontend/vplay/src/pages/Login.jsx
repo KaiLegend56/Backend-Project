@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api/axios";
+import { Navigate } from "react-router-dom";
 
 export default function Login() {
     const [data, setData] = useState({
@@ -12,6 +13,7 @@ export default function Login() {
             const res = await api.post("/users/login", data);
             alert("Login successful!");
             console.log(res.data);
+            Navigate("/");
         } catch (err) {
             alert(err.response?.data?.message || "Login failed");
         }
